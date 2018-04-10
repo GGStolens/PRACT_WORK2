@@ -1,43 +1,36 @@
 #include <iostream>
 #include <utility>
-#include <vector>
 #include <cmath>
+#include <string>
 #include "figures.h"
 
-Circle::Circle() {
-	center.first = center.second = radius = 0;
-}
-
-Circle::Circle(std::pair<double, double> & c, double r) {
-	center.first = c.first;
-	center.second = c.first;
-	radius = r;
-}
-
-Polygon::Polygon() {
-	num_vertex = 1;
-	vertex[0].first = vertex[0].second = 0;
-}
-
-Polygon::Polygon(std::vector<std::pair<double, double>> & v, int nv) {
-	num_vertex = nv;
-	vertex = v;
-}
-
-Polygon::~Polygon() {}
-Circle::~Circle() {}
-
-int Polygon::check_inside(const Circle & c) {
+int check_inside(Circle & c, Triangle & p) {
 	int touch = 0;
-	for (int i = 0; i < num_vertex; ++i) {
-		double length = sqrt((vertex[i].first - c.center.first) * (vertex[i].first - c.center.first) +
-							(vertex[i].second - c.center.second) * (vertex[i].second - c.center.second));
+	for (int i = 0; i < 3; ++i) {
+		double length = std::sqrt((p.vertex[i].first - c.center.first) * (p.vertex[i].first - c.center.first)
+						+ (p.vertex[i].second - c.center.second) * (p.vertex[i].second - c.center.second));
 		if (length > c.radius)
 			return 1;
 		else if (length == c.radius)
 			++touch;
 	}
-	if (touch == num_vertex)
+	if (touch == 3)
+		return 0;
+	else
+		return -1;
+}
+
+int check_inside(Circle & c, Rectangle & p) {
+	int touch = 0;
+	for (int i = 0; i < 4; ++i) {
+		double length = std::sqrt((p.vertex[i].first - c.center.first) * (p.vertex[i].first - c.center.first)
+						+ (p.vertex[i].second - c.center.second) * (p.vertex[i].second - c.center.second));
+		if (length > c.radius)
+			return 1;
+		else if (length == c.radius)
+			++touch;
+	}
+	if (touch == 4)
 		return 0;
 	else
 		return -1;

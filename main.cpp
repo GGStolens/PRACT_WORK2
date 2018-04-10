@@ -2,29 +2,46 @@
 #include <utility>
 #include <vector>
 #include "figures.h"
+#include <string>
 
 int main() {
-	std::pair<double, double> center;
-	std::vector<std::pair<double, double>> vertex;
-	double radius;
-	int num_vertex;
-	std::cout << "Enter the coordinates of the center of the circle:" << std::endl;
-	std::cin >> center.first >> center.second;
-	std::cout << "Enter the radius of the circle:" << std::endl;
-	std::cin >> radius;
-	std::cout << "Enter the number of vertices of the figures:" << std::endl;
-	std::cin >> num_vertex;
-	std::cout << "Enter the coordinates of the vertices:" << std::endl;
-	for (int i = 0; i < num_vertex; ++i) {
-		int a, b;
-		std::cin >> a >> b;
-		vertex.push_back(std::make_pair(a, b));
+	double x, y, r;
+	int check;
+	std::string polygon;
+	std::cout << "Enter the coordinates of circle" << std::endl;
+	std::cin >> x >> y;
+	std::cout << "Enter the length circle's radius" << std::endl;
+	std::cin >> r;
+	Circle _circle;
+	_circle.center = std::make_pair(x, y);
+	_circle.radius = r;
+	std::cout << "Enter the polygon: triangle or rectangle" << std::endl;
+	std::cin >> polygon;
+	if (polygon == "triangle") {
+		Triangle p;
+		std::cout << "Enter the coordinates of triangle" << std::endl;
+		for (int i = 0; i < 3; ++i) {
+			std::cin >> x >> y;
+			p.vertex.push_back(std::make_pair(x, y));
+			check = check_inside(_circle, p);
+		}
 	}
-	Circle circle(center, radius);
-	Polygon polygon(vertex, num_vertex);
-	if (polygon.check_inside(circle) == 1)
+	else if (polygon == "rectangle") {
+		Rectangle p;
+		std::cout << "Enter the coordinates of rectangle" << std::endl;
+		for (int i = 0; i < 4; ++i) {
+			std::cin >> x >> y;
+			p.vertex.push_back(std::make_pair(x, y));
+		}
+		check = check_inside(_circle, p);
+	}
+	else {
+		std::cout << "Incorrect name of polygon!" << std::endl;
+		exit(0);
+	}
+	if (check == 1)
 		std::cout << "OUTSIDE" << std::endl;
-	else if (polygon.check_inside(circle) == -1)
+	else if (check == -1)
 		std::cout << "INSIDE" << std::endl;
 	else
 		std::cout << "TOUCH" << std::endl;

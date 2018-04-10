@@ -4,25 +4,23 @@
 #include <utility>
 #include <vector>
 #include <iostream>
+#include <string>
 
-class Circle {
-public:
+struct Circle {
 	std::pair<double, double> center;
 	double radius;
-	Circle();
-	Circle(std::pair<double, double> & c, double r);
-	~Circle();
 };
 
-class Polygon {
-private:
+struct Triangle {
 	std::vector<std::pair<double, double>> vertex;
-	int num_vertex;
-public:
-	Polygon();
-	Polygon(std::vector<std::pair<double, double>> & v, int nv);
-	~Polygon();
-	int check_inside(const Circle & c);
+
 };
+
+struct Rectangle {
+	std::vector<std::pair<double, double>> vertex;
+};
+
+int check_inside(Circle &, Triangle &);
+int check_inside(Circle &, Rectangle &);
 
 #endif

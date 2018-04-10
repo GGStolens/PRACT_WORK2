@@ -1,16 +1,19 @@
 CC=g++
 FLAGS=-c -std=c++14 -Wall -Werror
+NAME = pract2
+MAIN = main
+FILE_1 = figures
 
-all: pract2
+all: $(NAME)
 
-pract2: main.o figures.o
-	$(CC) main.o figures.o -o pract2
+$(NAME): $(MAIN).o $(FILE_1).o
+	$(CC) $(MAIN).o $(FILE_1).o -o $(NAME)
 
-main.o: main.cpp
-	$(CC) $(FLAGS) main.cpp
+$(MAIN).o: $(MAIN).cpp
+	$(CC) $(FLAGS) $(MAIN).cpp
 
-figures.o: figures.cpp
-	$(CC) $(FLAGS) figures.cpp
+$(FILE_1).o: $(FILE_1).cpp
+	$(CC) $(FLAGS) $(FILE_1).cpp
 
 clean:
-	rm -rf *.o pract2
+	rm -rf *.o $(NAME)
